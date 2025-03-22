@@ -7,6 +7,11 @@ app = Flask("Emotion Detection")
 def sent_analyzer():
     text_to_analyze = request.args.get('textToAnalyze')
     response = emotion_detector(text_to_analyze)
+    
+    # Verificar si la emoción dominante es None
+    if response['dominant_emotion'] is None:
+        return "¡Texto inválido! ¡Por favor, intenta de nuevo!"
+
     # Extraer las emociones y la emoción dominante de la respuesta
     emocion_dominante = response['dominant_emotion']
     scores = {
