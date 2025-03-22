@@ -1,13 +1,23 @@
+"""
+Server module for emotion detection application.
+"""
+
 from flask import Flask, render_template, request
 from EmotionDetection.emotion_detection import emotion_detector
 
-app = Flask("Emotion Detection")
+app = Flask(__name__)
 
 @app.route("/emotionDetector")
 def sent_analyzer():
+    """
+    Analyze the emotion of the given text.
+
+    Returns:
+        str: Formatted response with emotion scores and dominant emotion.
+    """
     text_to_analyze = request.args.get('textToAnalyze')
     response = emotion_detector(text_to_analyze)
-    
+
     # Verificar si la emoción dominante es None
     if response['dominant_emotion'] is None:
         return "¡Texto inválido! ¡Por favor, intenta de nuevo!"
@@ -36,7 +46,14 @@ def sent_analyzer():
 
 @app.route("/")
 def render_index_page():
+    """
+    Render the index page.
+
+    Returns:
+        str: Rendered HTML template for the index page.
+    """
     return render_template('index.html')
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
+    
